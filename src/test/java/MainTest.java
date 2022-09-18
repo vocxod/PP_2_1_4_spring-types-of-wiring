@@ -12,21 +12,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = AppConfig.class)
 public class MainTest {
 
-    @Autowired
-    private ApplicationContext applicationContext;
+  private final String ANSI_RESET = "\u001B[0m";
+  private final String ANSI_CL1 = "\u001B[33m";
+  private final String ANSI_CL2 = "\u001B[35m";
 
-    @Test
-    public void mainTest() {
-        String text = "На свете есть океан , на океане остров , на острове дерево , на дереве заяц , в зайце утка , в утке яйцо , в яйце иголка , смерть Кощея на игле :(";
+  @Autowired
+  private ApplicationContext applicationContext;
 
-        KoscheiTheDeathless koscheiTheDeathless =
-                applicationContext.getBean(KoscheiTheDeathless.class);
-        System.out.println(koscheiTheDeathless.getRulesByDeth());
-        String testText = koscheiTheDeathless.getRulesByDeth();
+  @Test
+  public void mainTest() {
+    String text = "На свете есть океан , на океане остров , на острове дерево , на дереве заяц , в зайце утка , в утке яйцо , в яйце иголка , смерть Кощея на игле :(";
 
-        if (!testText.contains(text) && testText.length() <= text.length()) {
-            Assert.fail("Тест провален, не корректная связь бинов. Итоговая фраза не верна.");
-        }
+    KoscheiTheDeathless koscheiTheDeathless = applicationContext.getBean(KoscheiTheDeathless.class);
+    System.out.println(ANSI_CL2 + koscheiTheDeathless.getRulesByDeth() + ANSI_RESET);
+    String testText = koscheiTheDeathless.getRulesByDeth();
+
+    if (!testText.contains(text) && testText.length() <= text.length()) {
+      Assert.fail(ANSI_CL1 + "Тест провален, не корректная связь бинов. Итоговая фраза не верна." + ANSI_RESET);
     }
+  }
 
 }
